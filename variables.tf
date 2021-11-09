@@ -23,3 +23,6 @@ variable "zone_id" {
   description = "The name of the zone"
 }
 
+variable "image_family" {}
+
+variable "image_project" {}

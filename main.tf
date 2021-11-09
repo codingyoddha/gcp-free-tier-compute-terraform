@@ -1,7 +1,12 @@
 provider "google" {
-  credentials = file(var.credentials_file)
+  # credentials = file(var.credentials_file)
   project = var.project_id 
   region = var.region_id
+}
+
+data "google_compute_image" "image" {
+  family = var.image_family
+  project = var.image_project
 }
 
 resource "random_id" "instance_id" {
@@ -9,13 +14,13 @@ resource "random_id" "instance_id" {
 }
 
 resource "google_compute_instance" "default" {
-  name = "f1-micro-${random_id.instance_id.hex}"
-  machine_type = "f1-micro"
+  name = "free-e2-micro"
+  machine_type = "e2-micro"
   zone=var.zone_id
 
   boot_disk {
     initialize_params {
-      image = var.image_id
+      image = data.google_compute_image.image.self_link
       size = "30"
     }
   }
